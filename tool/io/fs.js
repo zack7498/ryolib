@@ -77,23 +77,33 @@
         jsonList = (jsonList)? jsonList : {};
 
         async.eachSeries(arrFileList, (fileName, next)=>{
-            let isJson = jsonReg.test(fileName);
-            let isfile = extReg.test(fileName);
-            if(isJson){
+            if(jsonReg.test(fileName)){
                 const sFilePath = path.join(filepath, fileName);
                 let sObjName = fileName.split('.')[0];
                 _readfile(sFilePath, (err, data)=>{
-                    jsonList[sObjName] = JSON.parse(data);
-                    jsonList[sObjName].path = sFilePath;
+                    try {
+                        jsonList[sObjName] = JSON.parse(data);
+                        Object.defineProperty(jsonList[sObjName], 'path', {
+                            enumerable : false,
+                            value :sFilePath,
+                            writable : false
+                        });
+                    } catch (error) {
+                        console.log(`The JSON parse is failed. Filepath : ${sFilePath}`);
+                        return setImmediate(next, error);
+                    }
                     return setImmediate(next, err);
                 });
-            } else if(isfile){ //其他格式檔案略過
+            } else if(extReg.test(fileName)){ //其他格式檔案略過
                 return setImmediate(next);
             } else { //讀取資料夾
                 const sDirPath = path.join(filepath, fileName);
-                jsonList[fileName] = {
-                    path : sDirPath
-                };
+                jsonList[fileName] = {};
+                Object.defineProperty(jsonList[fileName], 'path', {
+                    enumerable : false,
+                    value :sDirPath,
+                    writable : false
+                });
                 _isDirectory(sDirPath, (err, data)=>{
                     if(err){
                         return setImmediate(next, err);
@@ -111,8 +121,8 @@
         });
     }
 
-    function saveFile(filepath, callback) {
-        fs.writeFile(filepath, (err)=>{
+    function saveFile(filepath, data, callback) {
+        fs.writeFile(filepath, data, (err)=>{
             if(err){
                 console.log(`[io][rfs][saveFile] ERROR : ${err}`);
             }

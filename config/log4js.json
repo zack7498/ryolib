@@ -1,0 +1,44 @@
+{
+    "appenders":{
+        "SysNormalMsg": {
+            "type": "stdout",
+            "layout": { "type": "coloured" }
+        },
+        "SysErrorMsg":{
+            "type": "dateFile",
+            "filename": "../log/systemError.log",
+            "pattern": ".yyyy-MM-dd-hh",
+            "keepFileExt": true
+        },
+        "SysErrorToFile":{
+            "type": "logLevelFilter",
+            "appender": "SysErrorMsg",
+            "level": "warn"
+        },
+        "APIErrorMsg":{
+            "type": "dateFile",
+            "filename": "../log/APIError.log",
+            "pattern": ".yyyy-MM-dd-hh",
+            "keepFileExt": true
+        },
+        "APIErrorToFile":{
+            "type": "logLevelFilter",
+            "appender": "APIErrorMsg",
+            "level": "warn"
+        }
+    },
+    "categories":{
+        "default":{
+            "appenders": ["SysNormalMsg"],
+            "level": "info"
+        },
+        "MainSystem": {
+            "appenders": ["SysNormalMsg", "SysErrorToFile"],
+            "level": "info"
+        },
+        "APIFilter":{
+            "appenders": ["SysNormalMsg", "APIErrorToFile"],
+            "level": "info"
+        }
+    }
+}

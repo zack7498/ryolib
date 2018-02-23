@@ -1,5 +1,6 @@
 /*jshint esversion: 6 */
 (()=>{
+    "use strict";
     const request = require('request');
 
     function httpPoster(uri, route, callback){

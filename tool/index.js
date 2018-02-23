@@ -4,6 +4,7 @@
     module.exports = {
         io : require('./io/index.js'),
         checker : require('./checker/index.js'),
-        Logger : require('./logger/index.js')
+        logger : require('./logger/index.js'),
+        widget : require('./widget/index.js')
     };
 })();
