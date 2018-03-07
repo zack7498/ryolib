@@ -2,18 +2,47 @@
 (()=>{
     "use strict";
     const request = require('request');
-
-    function httpPoster(uri, route, callback){
-        request.post(`${uri}${route}`, (err, res, body)=> callback(err, body));
+/**
+# ██   ██ ████████ ████████ ██████      ██████   ██████  ███████ ████████ ███████ ██████
+# ██   ██    ██       ██    ██   ██     ██   ██ ██    ██ ██         ██    ██      ██   ██
+# ███████    ██       ██    ██████      ██████  ██    ██ ███████    ██    █████   ██████
+# ██   ██    ██       ██    ██          ██      ██    ██      ██    ██    ██      ██   ██
+# ██   ██    ██       ██    ██          ██       ██████  ███████    ██    ███████ ██   ██
+ */
+    /**
+     * http post方法
+     * @param {string} uri
+     * @param {string} route
+     * @param {Object} param
+     * @param {function} callback
+     */
+    function httpPoster(uri, route, param, callback){
+        request.post({
+            timeout : 15000,
+            url: `${uri}${route}`,
+            json: param
+          }, (err, res, body)=> callback(err, body));
     }
-
-    function httpgetter(uri, route, callback){
+/**
+# ██   ██ ████████ ████████ ██████       ██████  ███████ ████████ ████████ ███████ ██████
+# ██   ██    ██       ██    ██   ██     ██       ██         ██       ██    ██      ██   ██
+# ███████    ██       ██    ██████      ██   ███ █████      ██       ██    █████   ██████
+# ██   ██    ██       ██    ██          ██    ██ ██         ██       ██    ██      ██   ██
+# ██   ██    ██       ██    ██           ██████  ███████    ██       ██    ███████ ██   ██
+ */
+    /**
+     * http get方法
+     * @param {string} uri
+     * @param {string} route
+     * @param {function} callback
+     */
+    function httpGetter(uri, route, callback){
         request.get(`${uri}${route}`, (err, res, body)=> callback(err, body));
     }
 
     module.exports = {
         httpPoster : httpPoster,
-        httpgetter : httpgetter
+        httpGetter : httpGetter
     };
 
 
