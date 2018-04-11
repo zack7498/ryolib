@@ -1,0 +1,19 @@
+{
+  "name": "ryolib",
+  "version": "1.0.0",
+  "description": "The personal library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zack7498/ryolib.git"
+  },
+  "author": "Ryo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zack7498/ryolib/issues"
+  },
+  "homepage": "https://github.com/zack7498/ryolib#readme"
+}
