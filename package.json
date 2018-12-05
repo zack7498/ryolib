@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/zack7498/ryolib/issues"
   },
-  "homepage": "https://github.com/zack7498/ryolib#readme"
+  "homepage": "https://github.com/zack7498/ryolib#readme",
+  "devDependencies": {
+    "eslint-config-google": "^0.9.1"
+  }
 }
