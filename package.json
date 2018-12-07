@@ -17,6 +17,23 @@
   },
   "homepage": "https://github.com/zack7498/ryolib#readme",
   "devDependencies": {
-    "eslint-config-google": "^0.9.1"
+    "eslint": "^5.9.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.371.0",
+    "chai": "^4.2.0",
+    "generic-pool": "^3.4.2",
+    "jimp": "^0.6.0",
+    "log4js": "^3.0.6",
+    "mocha": "^5.2.0",
+    "mongodb": "^3.1.10",
+    "redis": "^2.8.0",
+    "sequelize": "^4.41.2"
   }
 }
