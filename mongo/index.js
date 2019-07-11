@@ -1,16 +1,18 @@
 'use strict';
 
+const deasync = require('deasync');
+
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
-async function delay(interval) {
+async function delay (interval) {
   return new Promise((resolve, reject) => {
     setTimeout(resolve, interval);
   });
 }
 
 class MongoCenter {
-  constructor() {
+  constructor () {
     this.mongodb = mongodb;
     this.clientList = {};
     this.cacheCollectionList = {};
@@ -28,7 +30,7 @@ class MongoCenter {
    * @param {String} database 資料庫名稱
    * @returns {Boolean}
    */
-  async _checkClient(database) {
+  async _checkClient (database) {
     if (this.initLock[database]) { // 正在init
       while (this.initLock[database]) {
         console.log(`init lock~`);
@@ -55,7 +57,7 @@ class MongoCenter {
    * @param {String} collectionName 集合名稱
    * @returns {Boolean}
    */
-  async _getCollection(db, databaseName, collectionName) {
+  async _getCollection (db, databaseName, collectionName) {
     let cCollection = this.cacheCollectionList[databaseName][collectionName];
     if (!cCollection) {
       db.collection(collectionName, {
@@ -84,7 +86,7 @@ class MongoCenter {
    * @param {Object} linkInfo 連線至資料庫的資訊
    * @returns {Object} 目標資料庫的連線實例
    */
-  async _initClient({
+  async _initClient ({
     host = '',
     port = 27017,
     database = '',
@@ -99,6 +101,8 @@ class MongoCenter {
       'minSize': 5,
       'poolSize': poolSize,
       'forceServerObjectId': true,
+      'keepAlive': true,
+      'reconnectTries': 3600,
       'auth': (isAuth) ? {
         'user': user,
         'password': password
@@ -136,7 +140,7 @@ class MongoCenter {
    *  {Number} expireAfterSeconds : 是否有過期時間（以秒為單位），-1為無，>0的情況則會自動建立一個名為autoCreateTime的索引，
    * @returns {Object} connectObject 目標collection的連線實例
    */
-  async getClient(linkInfo = {
+  async getClient (linkInfo = {
     'host': '',
     'port': 0,
     'isAuth': false,
@@ -199,4 +203,13 @@ class MongoCenter {
 
 let cMongoCenter = new MongoCenter();
 
-module.exports = cMongoCenter.getClient.bind(cMongoCenter);
+module.exports = function (linkInfo) {
+  let cConnection = null;
+  cMongoCenter.getClient(linkInfo).then(resolve => {
+    cConnection = resolve;
+  });
+  deasync.loopWhile(() => !cConnection);
+  return cConnection;
+  // console.log(`cConnection`, cConnection);
+  // return cConnection;
+};
