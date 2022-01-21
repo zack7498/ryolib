@@ -32,7 +32,7 @@
     "generic-pool": "^3.4.2",
     "jimp": "^0.6.0",
     "json-size": "^1.0.0",
-    "log4js": "^3.0.6",
+    "log4js": "^6.4.0",
     "mongodb": "^3.1.10",
     "redis": "^2.8.0",
     "sequelize": "^4.41.2"
